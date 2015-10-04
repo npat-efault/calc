@@ -1,0 +1,24 @@
+/*
+ * calcrc
+ *
+ * Initialization file for calc
+ *
+ * Link here from ~/.calcrc	
+ *
+ * by Nick Patavalis (npat@efault.net)
+ */
+
+global wordlen;
+
+define wl(l) {
+  local ol = wordlen;
+  wordlen = l;
+  return ol;
+}
+
+define w(v) {
+	return v & (2^wordlen - 1);
+}
+
+_ = base2(16); print "base2(16)";
+_ = wl(32); print "wl(32)";

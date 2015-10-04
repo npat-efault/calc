@@ -1,0 +1,15 @@
+#!/usr/bin/calc -q -s -f
+
+if (argv() != 5) {
+  fprintf(files(2), "usage: %s x1 y1 x2 y2\n", argv(0));
+  abort;
+}
+
+r1 = eval(argv(1)) / eval(argv(2))
+r2 = eval(argv(3)) / eval(argv(4))
+
+ox1 = 96 * r1 / (r1 + r2)
+ox2 = 96 * r2 / (r1 + r2)
+
+printf(" %.2f %.2f\n", ox1, ox2)
+
