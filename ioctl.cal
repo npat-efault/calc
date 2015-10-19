@@ -55,3 +55,7 @@ define IOW(type, nr, size) {
 define IOR(type, nr, size) {
   return IOC(READ, ord(type), nr, size);
 }
+
+define IO(type, nr) {
+  return IOC(NONE, ord(type), nr, 0);
+}
