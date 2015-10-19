@@ -1,0 +1,57 @@
+/* ioctl.cal
+ *
+ * Calculate Linux ioctl numbers
+ */
+
+NRBITS = 8;
+TYPEBITS = 8;
+
+gen_SIZEBITS = 14;
+gen_DIRBITS = 2;
+gen_NONE = 0;
+gen_READ = 1;
+gen_WRITE = 2;
+
+ppc_SIZEBITS = 13;
+ppc_DIRBITS = 3;
+ppc_NONE = 1;
+ppc_READ = 2;
+ppc_WRITE = 4;
+
+NONE = gen_NONE;
+READ = gen_READ;
+WRITE = gen_WRITE;
+
+NRSHIFT = 0;
+TYPESHIFT = NRSHIFT + NRBITS;
+SIZESHIFT = TYPESHIFT + TYPEBITS;
+DIRSHIFT = SIZESHIFT + gen_SIZEBITS;
+
+define cpu_ppc() {
+  DIRSHIFT = SIZESHIFT + ppc_SIZEBITS;
+  NONE = ppc_NONE;
+  READ = ppc_READ;
+  WRITE = ppc_WRITE;
+}
+
+define cpu_gen() {
+  DIRSHIFT = SIZESHIFT + gen_SIZEBITS;
+  NONE = gen_NONE;
+  READ = gen_READ;
+  WRITE = gen_WRITE;
+}
+
+define IOC(dir, type, nr, size) {
+  return ( (dir  << DIRSHIFT)  | \
+	   (type << TYPESHIFT) | \
+	   (nr   << NRSHIFT)   | \
+	   (size << SIZESHIFT) );
+}
+
+define IOW(type, nr, size) {
+  return IOC(WRITE, ord(type), nr, size);
+}
+
+define IOR(type, nr, size) {
+  return IOC(READ, ord(type), nr, size);
+}
